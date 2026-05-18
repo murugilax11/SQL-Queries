@@ -1,0 +1,18 @@
+CREATE TABLE task3 (student_id INT PRIMARY KEY AUTO_INCREMENT,
+student_name VARCHAR(20),
+age INT, city VARCHAR(20), marks INT );
+INSERT INTO task3(student_name,age,city, marks) VALUE ('Murugi', 20, 'madurai', 98), ('Deeps', 20, 'chennai', 99), ('Uma', 19, 'Srivilliputhur', 98),
+('Dharani', 21, 'Rajapalayam', 100), ('Ilakiya', 22, 'Mamsapuram', 60);
+SELECT * FROM task3;
+
+SELECT * FROM task3 WHERE marks > 80;
+SELECT * FROM task3 WHERE city = 'chennai';
+SELECT * FROM task3 WHERE marks BETWEEN 60 AND 90;
+SELECT * FROM task3 WHERE student_name LIKE('A%');
+SELECT *FROM task3 WHERE (fees - paid_fees) > 2000;
+SELECT * FROM task3 WHERE city IN('chennai','madurai') AND marks > 75;
+SELECT * FROM task3 WHERE marks % 2 = 0;
+SELECT * FROM task3 WHERE (attendance + 10) >90;
+SELECT * FROM task3 WHERE age > 18;
+
+SELECT * FROM employee WHERE YEAR (joinig_date) >2021;
