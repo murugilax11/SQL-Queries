@@ -1,0 +1,19 @@
+CREATE DATABASE college_db;
+USE college_db;
+CREATE TABLE students (student_id INT PRIMARY KEY AUTO_INCREMENT,
+student_name VARCHAR(20),
+age INT, city VARCHAR(20), marks INT );
+INSERT INTO students(student_name,age,city, marks) VALUE ('Murugi', 20, 'Srivilliputhur', 98), ('Deeps', 20, 'Rajapalayam', 99), ('Uma', 19, 'Srivilliputhur', 98),
+('Dharani', 21, 'Rajapalayam', 100), ('Ilakiya', 22, 'Mamsapuram', 88);
+SELECT * FROM students;
+
+SELECT student_name,marks FROM students;
+UPDATE students SET marks = 100 WHERE marks = 88;
+DELETE FROM students WHERE student_id = 4;
+ALTER TABLE students ADD email VARCHAR(20);
+ALTER TABLE students RENAME COLUMN marks TO score;
+ALTER TABLE students MODIFY city VARCHAR(70);
+ALTER TABLE students DROP COLUMN email;
+TRUNCATE TABLE students;
+DROP TABLE students;
+DROP DATABASE college_db;
