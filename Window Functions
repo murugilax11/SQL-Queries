@@ -1,0 +1,11 @@
+-- window function 
+SELECT emp_name, dept_id,salary,
+AVG(salary) OVER (partition BY dept_id)
+AS avg_salary FROM employees1;
+
+SELECT emp_name, dept_id,salary,
+SUM(salary) OVER (partition BY dept_id)
+AS avg_salary FROM employees1;
+
+SELECT emp_name, salary, 
+SUM(salary) OVER () AS total_salary FROM employees1;
