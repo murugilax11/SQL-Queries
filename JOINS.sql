@@ -107,5 +107,42 @@ ON t1.m_id = t2.e_id
 LEFT JOIN table1 AS t3
 ON t2.m_id = t3.e_id;
 
+-- WQTD the highest level manager
+SELECT emp_name FROM table1
+WHERE manager_id IS NULL ;
+
+-- count of employees under each manager
+SELECT m.emp_name , COUNT(e.emp_id) AS total
+FROM employees1 AS e
+JOIN employees1 AS m
+ON e.manager_id = m.emp_id
+GROUP BY e.manager_id;
+
+
+SELECT e.emp_name AS employee,
+       m.emp_name AS manager, e.manager_id
+FROM employees1 AS e
+JOIN employees1 AS m
+ON e.manager_id = m.manager_id
+AND e.emp_id <> m.emp_id;
+
+-- manager of jhon
+SELECT m.emp_name AS manager,e.emp_name AS employee
+FROM employees1 AS e
+JOIN employees1 AS m
+ON e.manager_id = m.emp_id
+WHERE e.emp_name = 'John';
+
+-- jhons managers manager name
+ SELECT e.emp_name AS employee,
+m.emp_name AS maneger,
+mm.emp_name AS managers_manager
+FROM employees1 AS e
+LEFT JOIN employees1 AS m
+ON e.manager_id = m.emp_id   
+LEFT JOIN employees1 AS mm
+ON m.manager_id = mm.emp_id
+WHERE e.emp_name = 'john';  
+
 
 
