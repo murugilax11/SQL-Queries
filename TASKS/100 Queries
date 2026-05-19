@@ -1,0 +1,474 @@
+USE psrr; 
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT,
+    bonus INT,
+    age INT,
+    city VARCHAR(50),
+    joining_date DATE
+);
+
+INSERT INTO employees VALUES
+(1, 'Rahul', 'HR', 45000, 5000, 25, 'Chennai', '2022-01-10'),
+(2, 'Arun', 'IT', 50000, 7000, 28, 'Madurai', '2021-06-15'),
+(3, 'Meena', 'Finance', 65000, 9000, 30, 'Coimbatore', '2020-03-25'),
+(4, 'John', 'Testing', 47000, 4000, 27, 'Chennai', '2023-02-12'),
+(5, 'Priya', 'IT', 52000, 6000, 26, 'Bangalore', '2022-08-18'),
+(6, 'Kavin', 'Management', 75000, 12000, 31, 'Madurai', '2019-11-20'),
+(7, 'Sneha', 'HR', 42000, 3500, 24, 'Trichy', '2023-05-14'),
+(8, 'Vignesh', 'IT', 68000, 10000, 29, 'Salem', '2020-09-30'),
+(9, 'Divya', 'Finance', 58000, 8000, 27, 'Chennai', '2021-12-01'),
+(10, 'Akash', 'Testing', 49000, 4500, 26, 'Madurai', '2022-04-11'),
+(11, 'Keerthi', 'IT', 72000, 11000, 32, 'Bangalore', '2018-07-19'),
+(12, 'Sanjay', 'HR', 46000, 3000, 25, 'Coimbatore', '2023-01-08'),
+(13, 'Nivetha', 'Finance', 61000, 8500, 29, 'Chennai', '2020-10-10'),
+(14, 'Harish', 'Management', 80000, 15000, 35, 'Madurai', '2017-06-22'),
+(15, 'Lavanya', 'Testing', 53000, 5000, 28, 'Trichy', '2021-03-17');
+
+-- 1. Find total number of employees.
+SELECT  COUNT(*) AS total_employee 
+FROM employees; 
+
+-- 2. Find total salary of all employees.
+SELECT  SUM(salary) AS total_salary 
+FROM employees;
+
+-- 3. Find average salary of employees.
+SELECT  AVG(salary) AS avg_salary 
+FROM employees;
+
+-- 4. Find highest salary
+SELECT  MAX(salary) AS high_salary 
+FROM employees;
+
+-- 5. Find lowest salary
+SELECT  MIN(salary) AS low_salary 
+FROM employees;
+
+-- 6. Count employees department-wise.
+SELECT  COUNT(*) AS dept_wise 
+FROM employees 
+GROUP BY department;
+
+-- 7. Find average salary department-wise.
+SELECT  AVG(salary) AS avg_dept_wise 
+FROM employees 
+GROUP BY department;
+
+-- 8. Find departments whose total salary is greater than 100000.
+SELECT  SUM(salary) AS dept_wise 
+FROM employees 
+GROUP BY department 
+HAVING SUM(salary) > 100000;
+
+-- 9. Display all employee names in uppercase.
+SELECT UPPER(emp_name) FROM employees;
+
+-- 10. Display all employee names in lowercase.
+SELECT LOWER(emp_name) FROM employees;
+
+-- 11. Find length of each employee name.
+SELECT LENGTH(emp_name) FROM employees;
+
+-- 12. Combine employee name and department in one column.
+SELECT CONCAT(emp_name, '-',department) FROM employees;
+
+-- 13. Extract first 3 characters from employee names.
+SELECT LEFT(emp_name, 3) FROM employees;
+
+-- 14. Reverse employee names.
+SELECT REVERSE(emp_name) FROM employees;
+
+-- 15. Replace department name &#39;IT&#39; with &#39;Developer&#39;.
+SELECT REPLACE (department,'IT','Developer') FROM employees;
+
+-- 16. Display current date.
+SELECT CURDATE();
+
+-- 17. Display current time.
+SELECT CURTIME();
+
+-- 18. Display current date and time.
+SELECT NOW();
+
+-- 19. Extract joining year from joining_date.
+SELECT YEAR(joining_date) FROM employees;
+
+-- 20. Extract joining month from joining_date.
+SELECT MONTH(joining_date) FROM employees;
+
+-- 21. Find employees who joined after 2021.
+SELECT YEAR(joining_date) 
+FROM employees 
+WHERE joining_date > 2021;
+
+-- 22. Add 30 days to joining_date.
+SELECT DATE_ADD(joining_date, INTERVAL 30 DAY) FROM employees;
+
+-- 23. Round salary values.
+SELECT ROUND(salary) AS round_salary FROM employees;
+
+-- 24. Find remainder when salary is divided by 1000.
+SELECT MOD(salary, 1000) FROM employees;
+
+-- 25. Find square root of salary.
+SELECT SQRT(salary) FROM employees;
+
+-- 26. Find salary raised to power 2.
+SELECT POWER(salary,2) FROM employees;
+
+-- 27. Display department name or &#39;No Department&#39; if NULL.
+SELECT  IF(NULL,'NO department',department) FROM employees;
+
+-- 28. Categorize employees using IF function:
+--  High Salary
+--  Low Salary
+SELECT emp_name, salary, 
+IF(salary >= 60000, 'High Salary', 'Low Salary') AS salary_category 
+FROM employees;
+
+-- 29. Categorize employees using CASE statement:
+--  Excellent
+--  Good
+--  Average
+SELECT CASE
+WHEN salary >= 80000 THEN 'excellent'
+WHEN salary > 50000 THEN 'good'
+ELSE 'average' END AS 'A' FROM employees;
+
+-- 30. Assign row numbers based on salary.
+SELECT emp_name, salary, 
+row_number() OVER(order BY salary DESC)  AS row_num 
+FROM employees1;
+
+-- 31. Rank employees based on salary.
+SELECT emp_name, salary, 
+RANK() OVER(order BY salary DESC)  AS row_num 
+FROM employees1;
+
+-- 32. Display previous salary using LAG function.
+SELECT emp_name,salary,
+LAG(salary) OVER(ORDER BY salary) AS previous_salary
+FROM employees1;
+
+-- 33. Find highest salary employee.
+SELECT * FROM employees1
+WHERE salary = (SELECT MAX(salary) FROM employees1);
+
+-- 34. Find second highest salary.
+SELECT * FROM employees1
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+
+-- 35. Find employees whose names start with &#39;P&#39;.
+SELECT  emp_name FROM employees1
+WHERE emp_name LIKE 'P%';
+
+-- 36. Find employees from Chennai.
+SELECT *FROM employees
+WHERE city = 'Chennai';
+
+-- 37. Find employees whose salary is between 45000 and 60000.
+SELECT * FROM employees
+WHERE salary between 45000 and 60000;
+
+-- 38. Display employees sorted by salary descending.
+SELECT * FROM employees 
+ORDER BY salary DESC;
+
+-- 39. Display top 3 highest salary employees.
+SELECT * FROM employees 
+ORDER BY salary DESC
+LIMIT 3;
+
+-- 40. Generate random employee records.
+SELECT * FROM employees
+ORDER BY RAND();
+
+-- 41. Find total bonus amount.
+SELECT SUM(bonus) AS total_bonus
+FROM employees;
+
+-- 42. Find maximum age of employees.
+SELECT MAX(age) AS max_age 
+FROM employees;
+
+-- 43. Find minimum age of employees.
+SELECT MIN(age) AS max_age 
+FROM employees;
+
+-- 44. Find average bonus department-wise.
+SELECT AVG(salary) 
+FROM employees
+GROUP BY department;
+
+-- 45. Count distinct departments.
+SELECT COUNT(DISTINCT department) 
+FROM employees;
+
+-- 46. Display employee names using LEFT function.
+SELECT LEFT(department,3) left_dept
+FROm employees;
+
+-- 47. Display employee names using RIGHT function.
+SELECT RIGHT(department,3) left_dept
+FROM employees;
+
+-- 48. Find position of substring in employee names.
+SELECT emp_name,
+POSITION('a' IN emp_name) AS position_value
+FROM employees;
+
+-- 49. Pad employee names using LPAD function.
+SELECT LPAD(emp_name,10,'*')
+FROM employees;
+
+-- 50. Pad employee names using RPAD function.
+SELECT RPAD(emp_name,10,'*')
+FROM employees;
+
+-- 51. Repeat employee names using REPEAT function.
+SELECT REPEAT(emp_name,2) 
+FROM employees;
+
+-- 52. Display ASCII value of first character in employee names.
+SELECT emp_name,
+ASCII(LEFT(emp_name,1)) AS ascii_value
+FROM employees;
+
+-- 53. Convert ASCII values back to characters.
+SELECT emp_name,
+CAST(CHAR(ASCII(LEFT(emp_name,1)))AS CHAR) AS char_value
+FROM employees;
+
+-- 54. Display day name from joining_date.
+SELECT joining_date,
+DAYNAME(joining_date)
+FROM employees;
+
+-- 55. Display month name from joining_date.
+SELECT joining_date,
+MONTHNAME(joining_date)
+FROM employees;
+
+-- 56. Find last day of current month.
+SELECT joining_date,
+LAST_DAY(joining_date)
+FROM employees;
+
+-- 57. Find difference between current date and joining_date.
+SELECT joining_date, 
+DATEDIFF(CURDATE(), joining_date) AS date_differ
+FROM employees;
+
+-- 58. Add 1 year to joining_date.
+SELECT joining_date,
+DATE_ADD(joining_date, INTERVAL 1 YEAR) AS new_date
+FROM employees;
+
+-- 59. Subtract 6 months from joining_date.
+SELECT joining_date,
+DATE_SUB(joining_date, INTERVAL 6 MONTH) AS new_date
+FROM employees;
+
+-- 60. Format joining_date as DD-MM-YYYY.
+SELECT joining_date,
+DATE_FORMAT(joining_date, '%d-%m-%y') AS new_format
+FROM employees;
+
+-- 61. Find employees who joined in a specific month.
+SELECT emp_name FROM employees
+WHERE MONTH(joining_date) = 1;
+
+-- 62. Find employees who joined on weekends.
+SELECT emp_name FROM employees
+WHERE DAYNAME(joining_date) IN ('Saturday', 'Sunday');
+
+-- 63. Display current database name.
+SELECT DATABASE() AS db_name;
+
+-- 64. Display MySQL version.
+SELECT VERSION() AS sql_version;
+
+-- 65. Generate UUID values.
+SELECT UUID() AS unique_id;
+
+-- 66. Generate random numbers using RAND().
+SELECT RAND() AS random_number;
+
+-- 67. Format salary with commas and decimal places.
+SELECT emp_name,salary, 
+FORMAT(salary,0)
+FROM employees;
+
+-- 68. Find greatest value among salary, bonus, and age.
+SELECT emp_name,
+GREATEST(salary, bonus, age) AS greates_
+FROM employees;
+
+-- 69. Find least value among salary, bonus, and age.
+SELECT emp_name,
+LEAST(salary, bonus, age) AS greates_
+FROM employees;
+
+-- 70. Use COALESCE function with NULL values.
+SELECT emp_name,
+COALESCE(NULL,age, bonus) AS result_value
+FROM employees;
+
+-- 71. Use NULLIF function with salary values.
+SELECT salary,
+NULLIF(salary, 45000) AS nullif_
+FROM employees;
+
+-- 72. Find employees whose names contain letter &#39;a&#39;.
+SELECT emp_name
+FROM employees
+WHERE emp_name LIKE '%a%';
+
+-- 73. Find employees whose names end with &#39;n&#39;.
+SELECT emp_name
+FROM employees
+WHERE emp_name LIKE '%n';
+
+-- 74. Display top 2 highest paid employees department-wise.
+SELECT * FROM (SELECT emp_name,department, salary,
+ROW_NUMBER() OVER(partition by department ORDER BY salary DESC) AS row_
+FROM employees) AS e1
+WHERE row_ <= 2;
+
+-- 75. Find cumulative salary using window functions.
+SELECT emp_name, salary,
+SUM(salary) OVER(ORDER BY salary) AS cumulative_salary
+FROM employees;
+
+-- 76. Divide employees into groups using NTILE function.
+SELECT emp_name, 
+NTILE(3) OVER (ORDER BY salary DESC) AS group_no
+FROM employees; 
+
+-- 77. Display next salary using LEAD function.
+SELECT emp_name, salary,
+LEAD(salary) OVER(ORDER BY salary) As lead_
+FROM employees;
+
+-- 78. Display first salary using FIRST_VALUE function.
+SELECT emp_name,salary,
+FIRST_VALUE(salary) OVER (ORDER BY salary) AS order_salary
+FROM employees;
+
+-- 79. Display last salary using LAST_VALUE function.
+SELECT emp_name, salary,
+LAST_VALUE(salary) OVER(ORDER BY salary
+ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS first_salary
+FROM employees;
+
+-- 80. Concatenate all employee names using GROUP_CONCAT.
+SELECT
+GROUP_CONCAT(emp_name) AS group_name
+FROM employees;
+
+-- 81. Count employees city-wise.
+SELECT city, COUNT(*) AS total_emp
+FROM employees
+GROUP BY city;
+
+-- 82. Find average salary city-wise.
+SELECT city, AVG(salary) AS avg_emp
+FROM employees
+GROUP BY city;
+
+-- 83. Find highest salary in each department.
+SELECT department, MAX(salary)
+FROM employees
+GROUP BY department;
+
+-- 84. Find lowest salary in each department.
+SELECT department, MIN(salary)
+FROM employees
+GROUP BY department;
+
+-- 85. Find departments having more than 2 employees.
+SELECT department , COUNT(*) AS total_emp
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 2;
+
+-- 86. Find employees with salary greater than department average.
+SELECT emp_name
+FROM employees AS e1
+WHERE salary > (
+    SELECT AVG(salary)
+    FROM employees AS e2
+    WHERE e1.department = e2.department);
+
+-- 87. Find employees whose salary equals maximum salary.
+SELECT emp_name, salary FROM employees
+WHERE salary =(SELECT  MAX(salary) 
+FROM employees);
+
+-- 88. Find employees whose age is greater than average age.
+SELECT emp_name, age FROM employees
+WHERE age >(SELECT  AVG(age) 
+FROM employees);
+
+-- 89. Display employee details with formatted joining dates.
+SELECT emp_id, emp_name, department,
+DATE_FORMAT(joining_date, '%d-%m-%Y') AS formatted_date
+FROM employees;
+
+-- 90. Generate employee initials using string functions.
+SELECT emp_name,
+CONCAT(LEFT(emp_name,1),'.') AS initial
+FROM employees;
+
+-- 91. Find number of days employees worked in company.
+SELECT emp_name, joining_date,
+DATEDIFF(CURDATE(),joining_date) AS working_days
+FROM employees;
+
+-- 92. Find employees who joined in the current year.
+SELECT *  FROM employees
+WHERE YEAR(joining_date) = YEAR(CURDATE());
+
+-- 93. Find employees with palindrome names using REVERSE.
+SELECT emp_name FROM employees
+WHERE emp_name = REVERSE(emp_name);
+
+-- 94. Find employees with even salaries using MOD function.
+SELECT * FROM employees
+WHERE MOD(salary,2) = 0;
+
+-- 95. Find employees with odd ages using MOD function.
+SELECT * FROM employees
+WHERE MOD(age,2) = 1;
+
+-- 96. Display employees ordered randomly.
+SELECT * FROM employees
+ORDER BY RAND();
+
+-- 97. Create ranking without gaps using DENSE_RANK.
+SELECT emp_name, salary,
+DENSE_RANK() OVER(ORDER BY salary DESC) AS dense_rank_value
+FROM employees;
+
+-- 98. Find salary difference between current and previous employee.
+SELECT emp_name,salary,
+salary - LAG(salary) OVER(ORDER BY salary) AS cur_prev
+FROM employees;
+
+-- 99. Display department-wise total salary using OVER clause.
+SELECT department,salary,
+SUM(salary) OVER(PARTITION BY department) AS dept_wise
+FROM employees;
+
+-- 100. Generate complete employee report using multiple functions together.
+SELECT emp_id,
+emp_name,department,salary,bonus,
+salary + bonus AS total_income,
+YEAR(CURDATE()) - YEAR(joining_date) AS exp_years,
+UPPER(city) AS city_name,
+DATE_FORMAT(joining_date, '%d-%m-%Y') AS for_date
+FROM employees;
