@@ -1,0 +1,158 @@
+-- Stored procedure
+USE dcl_db;
+SELECT * FROM ML_hos;
+
+-- 1. without parameters
+delimiter $$
+CREATE PROCEDURE display_name()
+BEGIN
+SELECT p_name
+FROM ML_hos;
+END $$
+delimiter ;
+CALL display_name();
+
+-- diaplay patient id ad issue
+delimiter $$
+CREATE PROCEDURE display_issue()
+BEGIN
+SELECT p_id,p_issue
+FROM ML_hos;
+END $$
+delimiter ;
+CALL display_issue();
+
+-- 2. input from user
+-- display patiend details using id
+delimiter $$
+CREATE PROCEDURE details(IN id INT)
+BEGIN
+SELECT p_name, p_issue
+FROM ML_hos
+WHERE p_id = id;
+END $$
+delimiter ;
+CALL details(101);
+
+-- 3. pass output and display the output 
+delimiter $$
+CREATE PROCEDURE all_detailss(OUT count INT)
+BEGIN
+SELECT COUNT(*) INTO count
+FROM ML_hos;
+END $$
+delimiter ; 
+
+CALL all_detailss(@count);
+SELECT @count;
+
+-- stores output in the same variable
+delimiter $$
+CREATE PROCEDURE double_salary( INOUT salary INT)
+BEGIN
+set salary= salary *2;
+END $$
+delimiter ;
+
+set @salary = 1000;
+CALL double_salary(@salary);
+SELECT @salary;
+
+-- a particular dept salary increase 30%
+delimiter $$
+CREATE PROCEDURE increase2(IN id INT)
+BEGIN
+UPDATE employee1
+ SET salary = salary*1.30
+ WHERE department =id;
+END $$
+delimiter ;
+
+CALL increase2(102);
+SELECT @salary;
+
+-- function using if-else
+CREATE DATABASE procedure_db;
+USE procedure_db;
+CREATE TABLE accountsss(acc_id INT PRIMARY KEY, acc_name VARCHAR(30), balance decimal(10,2));
+INSERT INTO accountsss VALUES(101,'kiruba',50000),(102,'murugi',10000);
+
+delimiter $$
+CREATE PROCEDURE transfer_money_1(IN kiruba INT ,IN murugi INT, 
+IN amount DECIMAL(10,2), OUT msg VARCHAR(30))
+BEGIN
+   declare kiruba_bal DECIMAL(10,2);
+   SELECT balance INTO kiruba_bal FROM accountsss
+   WHERE acc_id = kiruba;
+   
+   IF kiruba_bal >= amount THEN
+      START TRANSACTION;
+      UPDATE accountsss
+      SET balance = balance -amount
+      WHERE acc_id = kiruba;
+      UPDATE accountsss
+      SET balance = balance + amount
+      WHERE acc_id = murugi;
+      COMMIT;
+      SET msg = 'successful transaction';
+  ELSE 
+      SET msg = 'insufficient balance';
+  END IF;
+END $$
+delimiter ;
+
+CALL transfer_money_1(101,102,5000, @result);
+SELECT @result;
+
+SHOW PROCEDURE STATUS WHERE db ='procedure_db';
+DROP PROCEDURE IF EXISTS transfer_money;
+
+-- types of loops using in the stored procedure
+-- basic loop with stored procedure
+use procedure_db;
+delimiter $$
+CREATE PROCEDURE basicLoop()
+BEGIN
+ DECLARE i INT;
+ SET i=1;
+looplabel: LOOP
+   IF i >10 THEN
+     LEAVE looplabel;
+   END IF;
+   SET i = i+1;
+END LOOP;
+   SELECT i;
+END $$
+delimiter ;
+CALL basicLoop();
+
+-- While loop
+delimiter $$
+CREATE PROCEDURE whileLoop()
+BEGIN
+ DECLARE i INT;
+ SET i=1;
+   WHILE i <= 10 DO
+   SET i = i+1;
+END WHILE;
+   SELECT i;
+END $$
+delimiter ;
+CALL whileLoop();
+
+-- Repeat with procedure
+delimiter $$
+CREATE PROCEDURE repeatLoop()
+BEGIN
+ DECLARE i INT;
+ SET i=1;
+REPEAT
+   SET i = i+1;
+   UNTIL i > 10
+END REPEAT;
+   SELECT i;
+END $$
+delimiter ;
+CALL repeatLoop();
+
+ 
