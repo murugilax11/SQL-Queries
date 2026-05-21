@@ -1,0 +1,87 @@
+-- INDEXES
+USE company_db;
+CREATE TABLE sales (
+    sale_id INT PRIMARY KEY,
+    product_id INT,
+    quantity INT,
+    customer_id INT
+);
+
+INSERT INTO sales VALUES
+(1, 101, 5, 201),
+(2, 102, 2, 202),
+(3, 101, 3, 203),
+(4, 103, 1, 204),
+(5, 104, 7, 205);
+
+-- Display details
+SHOW INDEX FROM sales;
+
+-- Create the index for a column
+CREATE INDEX index_product 
+ON sales(product_id);
+
+-- Multiple index merging
+CREATE INDEX index_product__ 
+ON sales(product_id,quantity);
+
+-- delete index
+DROP INDEX index_product ON sales;
+
+-- change name
+ALTER TABLE sales 
+RENAME INDEX index_product to index_pro;
+
+-- add index using alter
+ALTER TABLE sales 
+ADD INDEX idx_cus(customer_id);
+
+
+-- TRIGGER queries
+
+CREATE TABLE students(std_name VARCHAR(20),std_id INT PRIMARY KEY, ph_no BIGINT UNIQUE);
+delimiter $$
+CREATE TRIGGER check_mobile_number
+BEFORE INSERT ON students
+FOR EACH ROW
+BEGIN
+  IF NEW.ph_no NOT regexp '^[0-9]{10}$' THEN
+  SIGNAL SQLSTATE '45000'
+  SET MESSAGE_TEXT = 'MOBILE NUMBER must be 10 digits';
+  END IF;
+END $$
+delimiter ;
+DROP TRIGGER check_mobile_number;
+INSERT INTO students VALUES('murugi',9,6379584548);
+INSERT INTO students VALUES('murugi',12,637958454869);
+
+-- salary update only if greater than 25000
+use sys;
+CREATE TABLE employee1 ( emp_id INT PRIMARY KEY AUTO_INCREMENT,
+emp_name VARCHAR(30),
+age INT,
+salary DECIMAL(10,2),
+department VARCHAR(30));
+INSERT INTO employee1(emp_name,age,salary,department) VALUES ('dinga',20,1200000,'ECE'),('dingi',20,100000,'CSE'),
+('dinga2',20,700000,'IT'),('dingi',20,850000,'AIDS') ;
+
+delimiter $$
+CREATE TRIGGER salary_check
+BEFORE UPDATE ON employee1
+FOR EACH ROW
+BEGIN
+  IF NEW.salary < 25000 THEN
+  SIGNAL SQLSTATE '45000'
+  SET MESSAGE_TEXT = 'invalid amount you must update more than 25000';
+  END IF ;
+END $$
+delimiter ;
+
+DROP TRIGGER salary_check;
+UPDATE employee1
+SET salary = 24000
+WHERE emp_name  = 'dinga';
+ 
+
+
+
