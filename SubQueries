@@ -71,3 +71,16 @@ SELECT *  FROM PSR AS t1
 WHERE salary <(
 SELECT MIN(salary) FROM PSR WHERE department = t1.department);
 
+-- Nested Query
+SELECT *
+FROM PSR AS e1
+WHERE salary = (
+    SELECT MAX(salary)
+    FROM PSR AS e2
+    WHERE e2.department = e1.department
+    AND salary < (
+        SELECT MAX(salary)
+        FROM PSR AS e3
+        WHERE e3.department = e1.department
+    )
+);
