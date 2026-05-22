@@ -1,0 +1,92 @@
+-- 19. Find employees working in departments located in Chennai or Bangalore.
+SELECT * FROM employees
+WHERE location IN
+(SELECT location FROM employees
+WHERE location IN ('Chennai','Bangalore'));
+
+-- 20. Display employees whose salary matches salaries in HR department.
+SELECT * FROM employees 
+WHERE salary IN
+(SELECT salary FROM employees
+WHERE department ='HR');
+
+-- 21. Find products belonging to categories with more than 10 products.
+SELECT *FROM products
+WHERE category_id IN
+(SELECT category_id
+FROM categories
+WHERE total_products > 10);
+
+-- 22. Display customers who ordered products 101, 102, or 103.
+SELECT * FROM customers 
+WHERE product_id IN (101,102,103);
+
+-- 23. Find employees working in departments having more than 5 employees.
+SELECT * FROM employees
+WHERE department IN
+(SELECT department FROm employees
+GROUP BY department
+HAVING COUNT(*) > 5);
+
+
+CREATE TABLE courses (
+    course_id INT,
+    course_name VARCHAR(50),
+    handled_by VARCHAR(50)
+);
+INSERT INTO courses VALUES
+(1,'Java','John'),
+(2,'Python','David'),
+(3,'SQL','John');
+-- 24. Display students enrolled in courses handled by ‘John’.
+SELECT * FROM students
+WHERE course_id IN
+(SELECT course_id FROM courses
+WHERE handled_by = 'John');
+
+-- 25. Find employees whose salaries are among top 5 salaries.
+SELECT * FROM employees
+WHERE salary IN
+(SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 5);
+
+-- 26. Display employees not working in departments located in Delhi.
+SELECt * FROM employees
+WHERE department NOT IN
+(SELECT department FROm employees
+WHERE location IN('Delhi'));
+
+-- 27. Find suppliers supplying products priced above 5000.
+SELECT * FROM suppliers
+WHERE supplier_id IN
+(SELECT supplier_id
+FROM products
+WHERE price > 5000);
+
+-- 28. Display books written by authors from India or USA.
+SELECT book_name FROM books  
+WHERE author_id IN 
+(SELECT author_id FROM books
+WHERE location IN ('India', 'USA'));
+
+CREATE TABLE projects (
+    project_id INT,
+    dept_id INT
+);
+INSERT INTO projects VALUES
+(101,2),
+(102,4),
+(103,5);
+-- 29. Find employees whose department IDs exist in projects table.
+SELECT * FROM employees 
+WHERE dep_id IN
+(SELECT dept_id FROM projects);
+
+-- 30. Display customers who never ordered premium products.
+-- 31. Find students who scored marks matching toppers.
+-- 32. Display employees working in departments having average salary above 60000.
+-- 33. Find movies rated by multiple users.
+-- 34. Display employees whose manager IDs appear in executive table.
+-- 35. Find projects handled by departments located in Mumbai.
