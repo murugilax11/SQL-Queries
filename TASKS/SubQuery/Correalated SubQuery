@@ -1,0 +1,65 @@
+-- 36. Find employees earning more than the average salary of their department.
+SELECT * FROM employees AS e1
+WHERE salary >
+(SELECT AVG(salary) FROM employees AS e2
+WHERE e1.department = e2.department);
+
+-- 37. Display employees with the highest salary in each department.
+SELECT * FROM employees AS e1
+WHERE salary =
+(SELECT MAX(salary) FROM employees AS e2
+WHERE e1.department = e2.department);
+
+-- 38. Find departments where average salary exceeds company average.
+
+-- 39. Display customers who placed more orders than average customers.
+SELECT * FROM customers
+WHERE place_order > 
+(SELECT AVG(order_count) FROM customers);
+
+-- 40. Find products priced above category average price.
+SELECT * FROM products AS p1
+WHERE price >
+(SELECT AVG(price) FROM products AS p2
+WHERE p1.cat_id = p2.cat_id);
+
+-- 41. Display students scoring above class average.
+SELECT * FROM std AS s1
+WHERE marks >
+(SELECT AVG(marks) FROM products AS p2
+WHERE s1.class_id = s2.class_id);
+
+-- 42. Find employees hired first in each department.
+SELECT * FROM employees AS e1
+WHERE joining_date IN
+(SELECT MIN(joining_date) FROM employees e2
+WHERE e1.department = e2.department);
+
+-- 43. Display books costing more than average price in their category.
+SELECT * FROM books AS b1
+WHERE price >
+(SELECT AVG(price) FROM books AS b2
+WHERE b1.book_id = b2.book_id);
+
+-- 44. Find employees whose salary is the maximum in their team.
+SELECT * FROM employees AS e1
+WHERE salary >
+(SELECT MAX(salary) FROM employees AS e2
+WHERE e1.team_id = e2.team_id);
+
+-- 45. Display branches having more employees than average branch size.
+-- 46. Find customers spending more than average customer spending.
+-- 47. Display suppliers supplying more products than average suppliers.
+
+-- 48. Find departments with no employees.
+SELECT * FROM departments
+WHERE dept_name NOT IN
+(SELECT department FROM employees);
+
+-- 49. Display products never ordered.
+SELECT *FROM products p1
+WHERE product_id NOT IN
+(SELECT product_id
+FROM orders1);
+
+-- 50. Find employees whose salary is greater than all employees in another department.
