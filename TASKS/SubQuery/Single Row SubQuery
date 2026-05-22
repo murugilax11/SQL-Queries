@@ -1,0 +1,162 @@
+CREATE TABLE employees (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT,
+    joining_date DATE,
+    location VARCHAR(50),
+    manager_id INT
+);
+INSERT INTO employees VALUES
+(101,'Arun','IT',60000,'2021-06-15','Chennai',201),
+(102,'Ravi','HR',50000,'2020-03-10','Madurai',202),
+(103,'Kavi','Finance',55000,'2022-01-20','Chennai',201),
+(104,'Meena','IT',70000,'2019-11-25','Bangalore',203),
+(105,'John','Testing',45000,'2023-02-18','Chennai',202),
+(106,'Priya','HR',52000,'2021-08-14','Madurai',202),
+(201,'Kumar','Management',90000,'2018-05-01','Bangalore',NULL),
+(202,'Suresh','Management',85000,'2017-09-12','Chennai',NULL),
+(203,'David','Management',95000,'2016-07-19','Bangalore',NULL);
+
+-- 1. Find employees earning more than the average salary.
+SELECT emp_name FROM employees 
+WHERE salary >
+(SELECT AVG(salary) FROM employees);
+
+-- 2. Find the employee with the highest salary.
+SELECT emp_name FROM employees
+WHERE salary =
+(SELECT MAX(salary) FROM employees);
+
+-- 3. Display employees working in the same department as ‘Ravi’.
+SELECT emp_name FROM employees
+WHERE department =
+(SELECT department FROM employees
+WHERE emp_name = 'Ravi');
+
+-- 4. Find employees hired after the employee ‘Kavi’.
+SELECT emp_name , YEAR(joining_date) FROM employees
+WHERE joining_date >
+(SELECT joining_date FROM employees
+WHERE emp_name = 'kavi');
+
+-- 5. Find the second highest salary.
+SELECT MAX(salary) AS second_max
+FROM employees
+WHERE salary <
+(SELECT MAX(salary) FROM employees);
+
+-- 6. Display employees earning less than the company average salary.
+SELECT emp_name FROM employees 
+WHERE salary <
+(SELECT AVG(salary) FROM employees);
+
+-- 7. Find employees working in the department with maximum employees.
+SELECT * FROM employees
+WHERE department =
+(SELECT department FROm employees
+GROUP BY department
+ORDER BY COUNT(*) DESC
+LIMIT 1);
+
+-- 8. Find employees whose salary equals the minimum salary.
+SELECT * FROM employees
+WHERE salary =
+(SELECT MIN(salary) FROM employees);
+
+-- 9. Display employees working in the same location as ‘Meena’.
+SELECT * FROM employees 
+WHERE location =
+(SELECT location FROM employees
+WHERE emp_name ='Meena');
+
+-- 10. Find employees hired before the manager of employee 101.
+SELECT * FROM employees 
+WHERE YEAR(joining_date) <
+(SELECT YEAR(joining_date) FROM employees
+WHERE emp_id = 101);
+
+
+CREATE TABLE products (
+    product_id INT,
+    product_name VARCHAR(50),
+    price INT
+);
+INSERT INTO products VALUES
+(1,'Laptop',50000),
+(2,'Mouse',1000),
+(3,'Keyboard',2000),
+(4,'Mobile',30000);
+-- 11. Find products with price greater than average product price.
+SELECT product_name FROm products
+WHERE price >
+(SELECT AVG(price) FROM products);
+
+-- 12. Display students scoring above average marks.
+SELECT * FROM students
+WHERE marks >
+(SELECT AVG(marks) FROM students);
+
+
+CREATE TABLE customers (
+    customer_id INT,
+    customer_name VARCHAR(50),
+    purchase_amount INT
+);
+INSERT INTO customers VALUES
+(1,'Arun',5000),
+(2,'Sneha',9000),
+(3,'Vignesh',7000);
+-- 13. Find customers who made the highest purchase.
+SELECT * FROM customers
+WHERE purchase_amount =
+(SELECT MAX(purchase_amount) FROm customers);
+
+CREATE TABLE departments (
+    dept_id INT,
+    dept_name VARCHAR(50),
+    created_year INT
+);
+INSERT INTO departments VALUES
+(1,'HR',2000),
+(2,'IT',2005),
+(3,'Finance',1998);
+-- 14. Display employees in the oldest department.
+SELECT * FROm departments
+WHERE created_year =
+(SELECT MIN(created_year) FROM departments);
+
+-- 15. Find employees earning more than their department average.
+SELECT * FROM employees e1
+WHERE salary >
+(SELECT AVG(salary)
+FROM employees e2
+WHERE e1.department = e2.department);
+
+-- 16. Find the latest joined employee.
+SELECT * FROm departments
+WHERE created_year =
+(SELECT MAX(created_year) FROM departments);
+
+
+CREATE TABLE books (
+    book_id INT,
+    book_name VARCHAR(50),
+    price INT
+);
+INSERT INTO books VALUES
+(1,'SQL Basics',500),
+(2,'Python',700),
+(3,'Java',400);
+-- 17. Display books with price less than average book price.
+SELECT book_name FROM books
+WHERE price <
+(SELECT AVG(price) FROM books);
+
+-- 18. Find employees whose manager has the highest salary.
+SELECT * FROM employees
+WHERE manager_id =
+(SELECT emp_id
+FROM employees
+WHERE salary =
+(SELECT MAX(salary) FROM employees));
