@@ -1,0 +1,131 @@
+
+CREATE TABLE department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+CREATE TABLE employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT
+);
+INSERT INTO department VALUES
+(1,'HR'),
+(2,'IT'),
+(3,'Finance'),
+(4,'Marketing');
+INSERT INTO employee VALUES
+(101,'Arun',2),
+(102,'Priya',1),
+(103,'Meena',3);
+-- 26. Display all departments with employee details.
+SELECT d.dept_name, e.emp_name
+FROM employee AS e
+RIGHT JOIN department AS d
+ON e.dept_id = d.dept_id;
+
+-- 27. Find departments without employees.
+SELECT d.dept_name, e.emp_name
+FROM employee AS e
+RIGHT JOIN department AS d
+ON e.dept_id = d.dept_id
+WHERE e.emp_id IS NULL;
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(50)
+);
+CREATE TABLE std (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(50),
+    course_id INT
+);
+INSERT INTO courses VALUES
+(1,'Java'),
+(2,'Python'),
+(3,'SQL');
+INSERT INTO std VALUES
+(101,'Abi',1),
+(102,'Divya',2);
+-- 29. Show all courses with enrolled students.
+SELECT c.course_name, s.student_name
+FROM courses AS c
+RIGHT JOIN std AS s
+ON c.course_id = s.course_id;
+
+-- 30. Find courses with no students enrolled.
+SELECT c.course_name, s.student_name
+FROM std AS s
+RIGHT JOIN courses AS c
+ON c.course_id = s.course_id
+WHERE s.student_id IS NULL;
+
+CREATE TABLE  project (
+    project_id INT PRIMARY KEY,
+    project_name VARCHAR(50)
+);
+CREATE TABLE employee2 (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    project_id INT
+);
+INSERT INTO project VALUES
+(1,'AI Chatbot'),
+(2,'Banking App'),
+(3,'E-Commerce');
+INSERT INTO employee2 VALUES
+(101,'Rahul',1),
+(102,'Sneha',2);
+-- 31. Display all projects and assigned employees.
+SELECT p.project_name, e.emp_name
+FROM employee2 AS e
+RIGHT JOIN project AS p
+ON e.project_id = p.project_id;
+
+-- 32. Find projects with no assigned employees.
+SELECT p.project_name, e.emp_name
+FROM employee2 AS e
+RIGHT JOIN project AS p
+ON e.project_id = p.project_id
+WHERE e.emp_name IS NULL;
+
+CREATE TABLE suppliers (
+    supplier_id INT PRIMARY KEY,
+    supplier_name VARCHAR(50)
+);
+CREATE TABLE product (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    supplier_id INT
+);
+INSERT INTO suppliers VALUES
+(1,'Dell'),
+(2,'HP'),
+(3,'Lenovo');
+INSERT INTO product VALUES
+(101,'Laptop',1),
+(102,'Mouse',2);
+-- 33. Show all suppliers and products supplied.
+SELECT s.supplier_name, p.product_name
+FROM product AS p
+RIGHT JOIN suppliers AS s
+ON p.supplier_id = s.supplier_id;
+
+-- 34. Find suppliers supplying no products.
+SELECT s.supplier_name, p.product_name
+FROM product AS p
+RIGHT JOIN suppliers AS s
+ON p.supplier_id = s.supplier_id
+WHERE p.product_id IS NULL;
+
+-- 35. Display all categories with products.
+SeLECT s.supplier_name AS category, p.product_name
+FROM product AS p
+RIGHT JOIN suppliers AS s
+ON p.supplier_id = s.supplier_id;
+
+-- 36. Find categories having no products.
+SeLECT s.supplier_name AS category, p.product_name
+FROM product AS p
+RIGHT JOIN suppliers AS s
+ON p.supplier_id = s.supplier_id
+WHERE p.product_id IS NULL;
