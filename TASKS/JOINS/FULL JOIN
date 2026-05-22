@@ -1,0 +1,164 @@
+-- 36. Display all employees and all departments including unmatched rows.
+SELECT e.emp_name, d.dept_name
+FROM employees e
+LEFT JOIN departments d
+ON e.dept_id = d.dept_id
+UNION
+SELECT e.emp_name, d.dept_name
+FROM employees e
+RIGHT JOIN departments d
+ON e.dept_id = d.dept_id;
+
+-- 37. Show all customers and all orders including customers without orders and orders without customers.
+SELECT c.customer_name, o.order_id
+FROM customers c
+LEFT JOIN orders1 o
+ON c.customer_id = o.customer_id
+UNION
+SELECT c.customer_name, o.order_id
+FROM customers c
+RIGHT JOIN orders1 o
+ON c.customer_id = o.customer_id;
+
+-- 38. Display all students and all courses including unassigned records.
+SELECT s.student_name, c.course_name
+FROM student s
+LEFT JOIN courses c
+ON s.course_id = c.course_id
+UNION
+SELECT s.student_name, c.course_name
+FROM student s
+RIGHT JOIN courses c
+ON s.course_id = c.course_id;
+
+-- 39. Show all products and sales including unsold products.
+SELECT p.product_name, s.sale_id
+FROM products p
+LEFT JOIN sales s
+ON p.product_id = s.product_id
+UNION
+SELECT p.product_name, s.sale_id
+FROM products p
+RIGHT JOIN sales s
+ON p.product_id = s.product_id;
+
+-- 40. Display all suppliers and products including unmatched suppliers/products.
+SELECT s.supplier_name, p.product_name
+FROM suppliers s
+LEFT JOIN product p
+ON s.supplier_id = p.supplier_id
+UNION
+SELECT s.supplier_name, p.product_name
+FROM suppliers s
+RIGHT JOIN product p
+ON s.supplier_id = p.supplier_id;
+
+-- 41. Find all employees and managers including employees without managers.
+SELECT e.emp_name AS employee, m.emp_name AS manager
+FROM employees1 e
+LEFT JOIN employees1 m
+ON e.manager_id = m.emp_id
+UNION
+SELECT e.emp_name AS employee,m.emp_name AS manager
+FROM employees1 e
+RIGHT JOIN employees1 m
+ON e.manager_id = m.emp_id;
+
+-- 42. Show all authors and books including authors without books.
+SELECT a.author_name, b.book_name
+FROM authors a
+LEFT JOIN books b
+ON a.author_id = b.author_id
+UNION
+SELECT a.author_name, b.book_name
+FROM authors a
+RIGHT JOIN books b
+ON a.author_id = b.author_id;
+
+-- 43. Display all doctors and patients including unmatched entries.
+SELECT d.doctor_name, p.patient_name
+FROM doctors d
+LEFT JOIN patients p
+ON d.doctor_id = p.doctor_id
+UNION
+SELECT d.doctor_name, p.patient_name
+FROM doctors d
+RIGHT JOIN patients p
+ON d.doctor_id = p.doctor_id;
+
+-- 44. Show all teams and players including teams without players.
+SELECT t.team_name, p.player_name
+FROM teams t
+LEFT JOIN players p
+ON t.team_id = p.team_id
+UNION
+SELECT t.team_name, p.player_name
+FROM teams t
+RIGHT JOIN players p
+ON t.team_id = p.team_id;
+
+-- 45. Display all movies and ratings including unrated movies.
+SELECT m.movie_name, r.rating
+FROM movies m
+LEFT JOIN ratings r
+ON m.movie_id = r.movie_id
+UNION
+SELECT m.movie_name, r.rating
+FROM movies m
+RIGHT JOIN ratings r
+ON m.movie_id = r.movie_id;
+
+-- 46. Show all branches and employees including empty branches.
+SELECT b.branch_name, e.emp_name
+FROM branches b
+LEFT JOIN employees e
+ON b.branch_id = e.branch_id
+UNION
+SELECT b.branch_name, e.emp_name
+FROM branches b
+RIGHT JOIN employees e
+ON b.branch_id = e.branch_id;
+
+-- 47. Display all teachers and subjects including unassigned subjects.
+SELECT t.teacher_name, s.subject_name
+FROM teachers t
+LEFT JOIN subjects s
+ON t.teacher_id = s.teacher_id
+UNION
+SELECT t.teacher_name, s.subject_name
+FROM teachers t
+RIGHT JOIN subjects s
+ON t.teacher_id = s.teacher_id;
+
+-- 48. Show all vendors and purchase orders including unmatched rows.
+SELECT v.vendor_name, p.order_id
+FROM vendors v
+LEFT JOIN purchase_orders p
+ON v.vendor_id = p.vendor_id
+UNION
+SELECT v.vendor_name, p.order_id
+FROM vendors v
+RIGHT JOIN purchase_orders p
+ON v.vendor_id = p.vendor_id;
+
+-- 49. Display all airports and flights including airports without flights.
+SELECT a.airport_name, f.flight_name
+FROM airports a
+LEFT JOIN flights f
+ON a.airport_id = f.airport_id
+UNION
+SELECT a.airport_name, f.flight_name
+FROM airports a
+RIGHT JOIN flights f
+ON a.airport_id = f.airport_id;
+
+-- 50. Show all libraries and books including libraries without books.
+SELECT l.library_name, b.book_name
+FROM libraries l
+LEFT JOIN books b
+ON l.library_id = b.library_id
+UNION
+SELECT l.library_name, b.book_name
+FROM libraries l
+RIGHT JOIN books b
+ON l.library_id = b.library_id;
