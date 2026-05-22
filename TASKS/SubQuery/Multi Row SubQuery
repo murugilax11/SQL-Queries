@@ -85,8 +85,29 @@ WHERE dep_id IN
 (SELECT dept_id FROM projects);
 
 -- 30. Display customers who never ordered premium products.
+
 -- 31. Find students who scored marks matching toppers.
+SELECT * FROM students
+WHERE marks IN
+(SELECT MAX(marks) from srudents);
+
 -- 32. Display employees working in departments having average salary above 60000.
+SELECT * FROM employees
+WHERE department IN
+(SELECT department
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 60000);
+
 -- 33. Find movies rated by multiple users.
+
 -- 34. Display employees whose manager IDs appear in executive table.
+SELECT * FROM employees
+WHERE manager_id IN
+(SELECT manager_id FROM executive);
+
 -- 35. Find projects handled by departments located in Mumbai.
+SELECT * FROM projects
+WHERE department In
+(SELECT department FROM project 
+WHERE location IN (Mumbai));
