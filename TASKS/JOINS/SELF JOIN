@@ -1,0 +1,104 @@
+CREATE TABLE employees1 (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    department VARCHAR(50),
+    salary INT,
+    joining_date DATE,
+    manager_id INT
+);
+INSERT INTO employees1 VALUES
+(1,'Rahul','HR',50000,'2020-01-10',NULL),
+(2,'Arun','IT',60000,'2021-03-15',1),
+(3,'Meena','Finance',55000,'2022-07-20',1),
+(4,'John','IT',45000,'2023-02-12',2),
+(5,'Priya','HR',52000,'2021-08-18',1),
+(6,'Kavin','Management',80000,'2019-11-25',NULL),
+(7,'Sneha','HR',48000,'2022-09-14',5),
+(8,'Vignesh','IT',62000,'2020-12-30',2),
+(9,'Divya','Finance',58000,'2021-05-01',3),
+(10,'Akash','IT',45000,'2023-01-17',2);
+
+-- 1. Find employees along with their manager names
+SELECT e1.emp_name AS employee,
+e2.emp_name AS manager
+FROM employees1 AS e1
+JOIN employees1 AS e2
+ON e1.manager_id = e2.emp_id;
+
+-- 2. Display employees who earn more than their managers
+SELECT e.emp_name AS employee,
+m.emp_name AS manager
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+WHERE e.salary > m.salary;
+
+-- 3. Find employees working in the same department as their manager
+SELECT e.emp_name, m.emp_name
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+WHERE e.department = m.department;
+
+-- 4. Show all employee pairs working in the same department
+SELECT e1.emp_name AS employee1, e2.emp_name AS employee2, e1.department
+FROM Employees1 AS e1
+JOIN Employees1 AS e2
+ON e1.department = e2.department
+WHERE e1.emp_id > e2.emp_id;
+
+-- 5. Find employees who joined earlier than their managers
+SELECT e.emp_name AS employee,m.emp_name AS manager
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+AND e.joining_date < m.joining_date;
+
+-- 6. Display employees and their manager salaries
+SELECT e.emp_name AS employee,e.salary AS employee_salary,
+m.emp_name AS manager, m.salary AS manager_salary
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id;
+
+-- 7. Find employees whose manager is from the HR department
+SELECT e.emp_name AS employee
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+WHERE m.department = 'HR';
+
+-- 8. List employees who do not have managers
+SELECT * FROM Employees1
+WHERE manager_id IS NULL;
+
+-- 9. Find manager names with the number of employees under them
+SELECT COUNT(e.emp_id) AS total_emp, m.emp_name
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+GROUP BY m.emp_id, m.emp_name;
+
+-- 10. Display employees having the same salary as their managers
+SELECT e.emp_name , e.salary 
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+WHERE e.salary = m.salary;  
+
+-- 11. Find employees whose manager joined in the same year
+SELECT e.emp_name AS employee
+FROM Employees1 AS e
+JOIN Employees1 As m
+ON e.manager_id = m.emp_id
+WHERE YEAR(e.joining_date) = YEAR(m.joining_date);
+
+-- 12. Show hierarchy levels up to manager’s manager
+SELECT e.emp_name AS employee,
+m.emp_name AS manager,
+mm.emp_name AS managers_manager
+FROM Employees1 AS e
+JOIN Employees1 AS m
+ON e.manager_id = m.emp_id
+JOIN employees1 AS mm
+ON m.manager_id = mm.emp_id;
