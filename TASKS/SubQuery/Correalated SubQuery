@@ -11,6 +11,11 @@ WHERE salary =
 WHERE e1.department = e2.department);
 
 -- 38. Find departments where average salary exceeds company average.
+SELECT department FROM employees e1
+GROUP BY department
+HAVING AVG(salary) >
+(SELECT AVG(salary)
+FROM employees e2);
 
 -- 39. Display customers who placed more orders than average customers.
 SELECT * FROM customers
@@ -48,8 +53,22 @@ WHERE salary >
 WHERE e1.team_id = e2.team_id);
 
 -- 45. Display branches having more employees than average branch size.
+SELECT * FROM branches b1
+WHERE employees_count >
+(SELECT AVG(employees_count)
+FROM branches b2);
+
 -- 46. Find customers spending more than average customer spending.
+SELECT * FROM customers c1
+WHERE spending >
+(SELECT AVG(spending)
+FROM customers c2);
+
 -- 47. Display suppliers supplying more products than average suppliers.
+SELECT * FROM suppliers s1
+WHERE products_supplied >
+(SELECT AVG(products_supplied)
+FROM suppliers s2);
 
 -- 48. Find departments with no employees.
 SELECT * FROM departments
@@ -63,3 +82,9 @@ WHERE product_id NOT IN
 FROM orders1);
 
 -- 50. Find employees whose salary is greater than all employees in another department.
+SELECT * FROM employees
+WHERE salary > ALL
+(SELECT salary
+FROM employees
+WHERE department = 'HR');
+
